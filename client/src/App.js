@@ -1,24 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
+import Navbar from "./components/Navbar";
+import "./App.css";
 
 function App() {
+  const [showSignup, setShowSignup] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+
+  const handleLogin = () => {
+    setShowSignup(false);
+    setShowAuth(true);
+  };
+  const handleSignup = () => {
+    setShowSignup(true);
+    setShowAuth(true);
+  };
+  const handleCloseAuth = () => setShowAuth(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar onLogin={handleLogin} onSignup={handleSignup} />
+      <div style={{ height: 64 }} /> {/* Spacer for navbar */}
+      <div className="container forms" style={{ minHeight: "100vh" }}>
+        {showAuth ? (
+          showSignup ? (
+            <Signup onSwitch={() => setShowSignup(false)} />
+          ) : (
+            <Login onSwitch={() => setShowSignup(true)} />
+          )
+        ) : (
+          <div
+            style={{
+              color: "#fff",
+              fontSize: 32,
+              fontWeight: 600,
+              margin: "auto",
+            }}
+          >
+            Welcome to PortfolioAI
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
